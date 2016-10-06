@@ -114,9 +114,9 @@
         window.requestAnimationFrame(drawFrame, canvas);
         context.clearRect(0, 0, canvas.width, canvas.height);
         
-        vx += beta;
-        vy += gamma;
-        vz += alpha;
+        vx = beta;
+        vy = gamma;
+        vz = alpha;
         vy -= gravity;
         trees.forEach(move);
         vx *= friction;

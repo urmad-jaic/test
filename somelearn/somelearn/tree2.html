@@ -17,7 +17,13 @@
     <script src="js/tree.js"></script>
     <script>
     window.onload = function () {
-      var canvas = document.getElementById('canvas'),
+		
+	if(window.DeviceOrientationEvent) {
+		  window.addEventListener('deviceorientation', function(event) {
+		  var alpha = event.alpha,
+			  beta = event.beta,
+			 gamma = event.gamma;
+			 var canvas = document.getElementById('canvas'),
           context = canvas.getContext('2d'),
           trees = [],
           numTrees = 1000,
@@ -108,9 +114,9 @@
         window.requestAnimationFrame(drawFrame, canvas);
         context.clearRect(0, 0, canvas.width, canvas.height);
         
-        vx += ax;
-        vy += ay;
-        vz += az;
+        vx += beta;
+        vy += gamma;
+        vz += alpha;
         vy -= gravity;
         trees.forEach(move);
         vx *= friction;
@@ -119,6 +125,11 @@
         trees.sort(zSort);
         trees.forEach(draw);
       }())
+			  }, false);
+		}else{
+		  document.querySelector('body').innerHTML = '你的瀏覽器不支援喔';
+		}	
+      
     }
     </script>
   </body>

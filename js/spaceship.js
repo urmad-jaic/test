@@ -20,7 +20,7 @@ ctx.lineTo(-10,-10);
 ctx.lineTo(10,0);
 ctx.closePath();
 ctx.stroke();
-if(this.showFlaem==true){
+if(this.showFlame==true){
 ctx.save();
 ctx.beginPath();
 ctx.strokeStyle="#f69";

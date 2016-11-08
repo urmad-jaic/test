@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial=scale=1,maximum-scale=3,minimum-scale=1,user-scalable=no">
+<title>TEST</title>
+</head>
+<body style="padding:0;margin:0">
+<canvas id="canvas" style="background:#333"></canvas>
+
+<script src="js/utils.js"></script>
+<script src="js/spaceship.js"></script>
+<script src="js/box.js"></script>
+
+<script>
+window.onload=function(){
+var canvas=document.getElementById("canvas");
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+var ctx.canvas.getContext("2d");
+    boxes=[];
+    bullets=[];
+    gravity=0.5;
+var timer=100;
+var boom=false;
+var touch=utils.captureTouch(canvas);
+
+var spaceship=new SpaceShip();
+spaceship.x=canvas.width/2;
+spaceship.y=canvas.height-50;
+spaceship.rotation=-Math.PI/2;
+spaceship.showFlame=true;
+
+function drawbox(box){
+box.y+=5;
+box.draw(ctx);
+}
+
+function start(){
+spaceship.draw(ctx);
+spaceship.fire(ctx);
+timer--;
+if(timer<=50){
+var box=new Box();
+box.x=Math.random()*canvas.width;
+boxes.push(box);
+timer=100;
+}
+boxes.forEach(drawbox);
+}
+
+function checkbTob(){
+for(var i=0;i<boxes.length;i++){
+if(utils.intersects(spaceship,boxes[i])){
+boom=!boom;
+}
+}
+}
+
+
+window.addEventListener("touchmove",function(e){
+spaceship.x=touch.x-30;
+spaceship.y=touch.y-30;
+},false)
+
+
+(function draw(){
+var stopani=window.requestAnimationFrame(draw,canvas);
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+if(spaceship.x+12.5>canvas.width){spaceship.x=canvas.width-12.5};
+if(spaceship.x-12.5<0){spaceship.x=12.5}
+if(spaceship.y+15>canvas.height){spaceship.y=canvas.height-15};
+if(spaceship.y-12.5<0){spaceship.y=12.5}
+start();
+checkbTob();
+if(boom){
+window.cancelAnimationFrame(stopani);
+}
+
+})()
+
+
+}
+</script>
+</body>
+</html>
